@@ -14,10 +14,10 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 	@Autowired
 	private EntityManager entityManager;
 	
-	GenericDaoImpl() {
-		this.type = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
-				.getActualTypeArguments()[0];
-	}
+//	GenericDaoImpl() {
+//		this.type = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
+//				.getActualTypeArguments()[0];
+//	}
 	
 	@Transactional
 	@Override

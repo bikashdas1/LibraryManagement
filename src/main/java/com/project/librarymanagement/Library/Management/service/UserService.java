@@ -6,4 +6,6 @@ public interface UserService {
 
 	public User findUserById();
 	
+	public boolean insertUser(User user);
+	
 }

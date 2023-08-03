@@ -17,4 +17,15 @@ public class UserServiceImpl implements UserService {
 		return userDao.findById(2);
 	}
 
+	@Override
+	public boolean insertUser(User user) {
+		try {
+			userDao.insertEntity(user);
+			return true;
+		} catch (Exception e){
+			return false;
+
+		}
+	}
+
 }
