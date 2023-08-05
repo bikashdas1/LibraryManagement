@@ -5,5 +5,7 @@ public interface GenericDao<T> {
 	T insertEntity(T t);
 	
 	T findById(int id);
+	
+	boolean removeById(int id);
 
 }

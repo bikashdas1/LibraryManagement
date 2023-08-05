@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 import com.project.librarymanagement.Library.Management.dao.UserDao;
 import com.project.librarymanagement.Library.Management.entity.User;
 
+import io.micrometer.common.util.StringUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.servlet.http.HttpServletRequest;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -26,6 +30,30 @@ public class UserServiceImpl implements UserService {
 			return false;
 
 		}
+	}
+
+	@Override
+	public boolean removeUser(int id) {
+		return userDao.removeById(id);
+	}
+
+	@Override
+	public boolean updateUser(HttpServletRequest httpReq) {
+		String id = httpReq.getParameter("id");
+		User user = userDao.findById(Integer.parseInt(id));
+		if (user == null) {
+			return false;
+		}
+		String name = httpReq.getParameter("name");
+		String address = httpReq.getParameter("address");
+		if (StringUtils.isNotBlank(name)) {
+			user.setName(name);
+		}
+		if (StringUtils.isNotBlank(address)) {
+			user.setAddress(address);
+		}
+		userDao.insertEntity(user);
+		return true;
 	}
 
 }
