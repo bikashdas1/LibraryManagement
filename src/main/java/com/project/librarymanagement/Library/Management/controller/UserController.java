@@ -1,7 +1,10 @@
 package com.project.librarymanagement.Library.Management.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +55,13 @@ public class UserController {
 	@PostMapping(path= {"/update", "/update/"}, consumes="application/json")
 	public String updateUser(HttpServletRequest httpReq) {
 		String id = httpReq.getParameter("id");
+		String body = "";
+		try {
+			BufferedReader reader = httpReq.getReader();
+			body = reader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		if (StringUtils.isBlank(id)) {
 			return "Id is required to update a user";
 		}
@@ -59,6 +69,12 @@ public class UserController {
 			return "User details updated successfully!";
 		}
 		return "User not found in database";
+	}
+	
+	@GetMapping("/all")
+	public List<User> getAllUsers() {
+		return userService.getAllUsers();
+		
 	}
 	
 }

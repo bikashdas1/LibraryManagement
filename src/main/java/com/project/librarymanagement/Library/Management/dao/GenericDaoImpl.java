@@ -1,10 +1,12 @@
 package com.project.librarymanagement.Library.Management.dao;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 
 @Transactional
@@ -39,6 +41,19 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 			return true;
 		}
 		return false;
-	}	
+	}
+
+	@Override
+	public List<T> findAll() {
+		
+		Query query = entityManager.createNativeQuery("select * from user");
+		return query.getResultList();
+	}
+	
+	@Override
+	public List<T> executeQuery(String query) {
+		Query queryStr = entityManager.createNativeQuery(query);
+		return queryStr.getResultList();
+	}
 
 }

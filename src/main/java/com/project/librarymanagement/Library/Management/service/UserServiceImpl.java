@@ -1,5 +1,7 @@
 package com.project.librarymanagement.Library.Management.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,11 +9,10 @@ import com.project.librarymanagement.Library.Management.dao.UserDao;
 import com.project.librarymanagement.Library.Management.entity.User;
 
 import io.micrometer.common.util.StringUtils;
-import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 	@Autowired
 	UserDao userDao;
@@ -54,6 +55,13 @@ public class UserServiceImpl implements UserService {
 		}
 		userDao.insertEntity(user);
 		return true;
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+//		return userDao.findAll();
+		String query = getQuery("GET.ALL.USERS");
+		return userDao.executeQuery(query);
 	}
 
 }
