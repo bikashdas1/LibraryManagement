@@ -15,7 +15,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 	private Class<T> type;
 	
 	@Autowired
-	private EntityManager entityManager;
+	protected EntityManager entityManager;
 	
 	GenericDaoImpl() {
 		this.type = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
