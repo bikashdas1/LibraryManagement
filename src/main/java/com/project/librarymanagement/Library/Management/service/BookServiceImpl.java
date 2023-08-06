@@ -6,16 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.librarymanagement.Library.Management.dao.BookDao;
+import com.project.librarymanagement.Library.Management.dao.BookShelfDao;
 import com.project.librarymanagement.Library.Management.entity.Book;
-
-import io.micrometer.common.util.StringUtils;
-import jakarta.servlet.http.HttpServletRequest;
+import com.project.librarymanagement.Library.Management.entity.BookShelf;
 
 @Service
 public class BookServiceImpl extends BaseServiceImpl implements BookService {
 
 	@Autowired
 	BookDao bookDao;
+	
+	@Autowired
+	BookShelfDao bookShelfDao;
 	
 	@Override
 	public Book findBookById(int id) {
@@ -26,6 +28,15 @@ public class BookServiceImpl extends BaseServiceImpl implements BookService {
 	public boolean insertBook(Book book) {
 		try {
 			bookDao.insertEntity(book);
+			BookShelf bookInShelf = bookShelfDao.findById(book.getId());
+			if (bookInShelf == null) {
+				BookShelf bookShelf = new BookShelf();
+				bookShelf.setAvailable(1);
+				bookShelf.setBorrowed(0);
+				bookShelf.setComment("New Book Added to the SHelf");
+				bookShelf.setQuantity(1);
+				bookShelf.setStatus("Y");
+			}
 			return true;
 		} catch (Exception e){
 			return false;
@@ -35,41 +46,10 @@ public class BookServiceImpl extends BaseServiceImpl implements BookService {
 
 	@Override
 	public boolean removeBook(int id) {
+		bookShelfDao.removeById(id);
 		return bookDao.removeById(id);
 	}
 
-//	@Override
-//	public boolean updateBook(HttpServletRequest httpReq) {
-//		String id = httpReq.getParameter("id");
-//		Book book = bookDao.findById(Integer.parseInt(id));
-//		if (book == null) {
-//			return false;
-//		}
-//		String name = httpReq.getParameter("name");
-//		String author = httpReq.getParameter("address");
-//		String genre = httpReq.getParameter("genre");
-//		String publication = httpReq.getParameter("publication");
-//		String year = httpReq.getParameter("year");
-//		
-//		if (StringUtils.isNotBlank(name)) {
-//			book.setName(name);
-//		}
-//		if (StringUtils.isNotBlank(author)) {
-//			book.setAuthor(author);
-//		}
-//		if (StringUtils.isNotBlank(genre)) {
-//			book.setGenre(genre);
-//		}
-//		if (StringUtils.isNotBlank(publication)) {
-//			book.setPublication(publication);
-//		}
-//		if (StringUtils.isNotBlank(year)) {
-//			book.setYear(Integer.parseInt(year));
-//		}
-//		bookDao.insertEntity(book);
-//		return true;
-//	}
-	
 	@Override
 	public boolean updateBook(Book book) {
 		bookDao.insertEntity(book);
