@@ -1,11 +1,7 @@
 package com.project.librarymanagement.Library.Management;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import com.project.librarymanagement.Library.Management.entity.BookShelf;
 
 @SpringBootApplication
 public class LibraryManagementSystemApplication {

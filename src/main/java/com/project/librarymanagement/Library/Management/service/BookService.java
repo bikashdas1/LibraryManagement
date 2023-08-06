@@ -14,7 +14,9 @@ public interface BookService extends BaseService{
 	
 	public boolean removeBook(int id);
 	
-	public boolean updateBook(HttpServletRequest httpReq);
+//	public boolean updateBook(HttpServletRequest httpReq);
+	
+	public boolean updateBook(Book book);
 	
 	public List<Book> getAllBooks();
 	
