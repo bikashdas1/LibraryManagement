@@ -20,8 +20,8 @@ import com.project.librarymanagement.Library.Management.service.UserService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 
-@RestController
-@RequestMapping(path="/book", produces=MediaType.APPLICATION_JSON_VALUE)
+//@RestController
+//@RequestMapping(path="/book", produces=MediaType.APPLICATION_JSON_VALUE)
 public class UserHistoryController {
 
 	@Autowired

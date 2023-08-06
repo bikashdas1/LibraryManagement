@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.librarymanagement.Library.Management.entity.Book;
 import com.project.librarymanagement.Library.Management.service.BookService;
 
@@ -56,18 +58,32 @@ public class BookController {
 	
 	@PostMapping(path= {"/update", "/update/"}, consumes="application/json")
 	public String updateBook(HttpServletRequest httpReq) {
-		String id = httpReq.getParameter("id");
-		String body = "";
-		try {
-			BufferedReader reader = httpReq.getReader();
-			body = reader.readLine();
+		StringBuilder body = new StringBuilder();
+		try (BufferedReader reader = httpReq.getReader()) {
+			String buffer = "";
+			while (buffer != null) {
+				buffer = reader.readLine();
+				if (buffer != null) {
+					body.append(buffer);					
+				}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (StringUtils.isBlank(id)) {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Book book = null;
+		try {
+			book = mapper.readValue(body.toString(), Book.class);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (!(book.getId() >= 0)) {
 			return "Id is required to update a book";
 		}
-		if (bookService.updateBook(httpReq)) {
+		if (bookService.updateBook(book)) {
 			return "Book details updated successfully!";
 		}
 		return "Book not found in database";

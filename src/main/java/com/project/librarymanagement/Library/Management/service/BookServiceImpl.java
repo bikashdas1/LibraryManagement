@@ -38,34 +38,40 @@ public class BookServiceImpl extends BaseServiceImpl implements BookService {
 		return bookDao.removeById(id);
 	}
 
+//	@Override
+//	public boolean updateBook(HttpServletRequest httpReq) {
+//		String id = httpReq.getParameter("id");
+//		Book book = bookDao.findById(Integer.parseInt(id));
+//		if (book == null) {
+//			return false;
+//		}
+//		String name = httpReq.getParameter("name");
+//		String author = httpReq.getParameter("address");
+//		String genre = httpReq.getParameter("genre");
+//		String publication = httpReq.getParameter("publication");
+//		String year = httpReq.getParameter("year");
+//		
+//		if (StringUtils.isNotBlank(name)) {
+//			book.setName(name);
+//		}
+//		if (StringUtils.isNotBlank(author)) {
+//			book.setAuthor(author);
+//		}
+//		if (StringUtils.isNotBlank(genre)) {
+//			book.setGenre(genre);
+//		}
+//		if (StringUtils.isNotBlank(publication)) {
+//			book.setPublication(publication);
+//		}
+//		if (StringUtils.isNotBlank(year)) {
+//			book.setYear(Integer.parseInt(year));
+//		}
+//		bookDao.insertEntity(book);
+//		return true;
+//	}
+	
 	@Override
-	public boolean updateBook(HttpServletRequest httpReq) {
-		String id = httpReq.getParameter("id");
-		Book book = bookDao.findById(Integer.parseInt(id));
-		if (book == null) {
-			return false;
-		}
-		String name = httpReq.getParameter("name");
-		String author = httpReq.getParameter("address");
-		String genre = httpReq.getParameter("genre");
-		String publication = httpReq.getParameter("publication");
-		String year = httpReq.getParameter("year");
-		
-		if (StringUtils.isNotBlank(name)) {
-			book.setName(name);
-		}
-		if (StringUtils.isNotBlank(author)) {
-			book.setAuthor(author);
-		}
-		if (StringUtils.isNotBlank(genre)) {
-			book.setGenre(genre);
-		}
-		if (StringUtils.isNotBlank(publication)) {
-			book.setPublication(publication);
-		}
-		if (StringUtils.isNotBlank(year)) {
-			book.setYear(Integer.parseInt(year));
-		}
+	public boolean updateBook(Book book) {
 		bookDao.insertEntity(book);
 		return true;
 	}
@@ -73,7 +79,8 @@ public class BookServiceImpl extends BaseServiceImpl implements BookService {
 	@Override
 	public List<Book> getAllBooks() {
 		String query = getQuery("GET.ALL.BOOKS");
-		return bookDao.executeQuery(query);
+		List<Book> bookList = bookDao.executeQuery(query);
+		return bookList;
 	}
 
 }
